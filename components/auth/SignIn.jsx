@@ -1,6 +1,8 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from 'react';
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../firebase/firebaseConfig";
+import { Button, Container, Form } from "react-bootstrap";
+import style from "./formStyle.module.css";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
@@ -17,25 +19,26 @@ const SignIn = () => {
     }
 
   return (
-    <div className='sign-in-container'>
-        <form onSubmit={signIn}>
-            <h1>Login</h1>
-            <input 
+    <Container className={style.signInContainer + " m-4"}>
+        <Form onSubmit={signIn} className="m-4">
+            <h1 className="m-4 text-center">Login</h1>
+            <Form.Control
                 type="email" 
                 placeholder='Coloque seu email' 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-
-            ></input>
-            <input 
+                className=""
+            ></Form.Control>
+            <Form.Control 
                 type="password" 
                 placeholder='Coloque sua senha' 
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-            ></input>
-            <button type="submit" >Entrar</button>
-        </form>
-    </div>
+                className="mt-4 mb-4"
+            ></Form.Control>
+            <Button type="submit" variant="dark" >Entrar</Button>
+        </Form>
+    </Container>
   )
 }
 
