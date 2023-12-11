@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 
 
-
-
 const PesquisaVetor = () => {
   const [itens] = useState(['Casa 1', 'Ferreirinha BSI', 'Casa do rato', 'Residência pedagógica','Maia BSI','Residência VASP']);
   const [termoPesquisa, setTermoPesquisa] = useState('');
@@ -23,8 +21,7 @@ const PesquisaVetor = () => {
     }
 
     setResultados(resultadosFiltrados);
-    // setResultados([]);
-    // setErro('');
+
   };
 
 
