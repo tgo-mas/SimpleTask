@@ -17,3 +17,16 @@ body{
 .App-logo span{
     font-weight: 600;
 }
+
+.card-lista{
+    background-color: white !important;
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+    cursor:pointer;
+    border-radius: 5px;
+}
+
+.button-new{
+    height: 3em
+}
