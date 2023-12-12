@@ -1,18 +1,17 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase/firebaseConfig';
-// import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 const AuthDetails = () => {
     const [authUser, setAuthUser] = useState(null);
-    // const navigate = useNavigate();
-    // Para fazer: redirecionar para página de listas caso o usuário esteja logado.
+    const router = useRouter();
 
     useEffect(() => {
         const listen = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setAuthUser(user);
-                // navigate("/listas");
+                router.push("/listas");
             } else {
                 setAuthUser(null);
             }

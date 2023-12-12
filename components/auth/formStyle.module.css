@@ -1,10 +1,10 @@
-.signInContainer {
-    width: 50vw;
-    text-align: end;
+.signInContainer form {
+    display: flex;
+    flex-direction: column;
+    width: 30em;
 }
 
-@media only screen and (max-width: 768px) {
-    .signInContainer {
-        width: 80vw;
-    }
+.signInContainer{
+    display: flex;
+    justify-content: center;
 }
