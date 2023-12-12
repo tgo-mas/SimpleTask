@@ -1,12 +1,10 @@
+import PesquisaVetor from "../components/search/functions";
 
-import PesquisaVetor from "./auth/functions";
 export default function Home(){
     return(
         <div>
-            <a href="/auth/login">Login</a>
-            <a href="/auth/cadastro">Cadastro</a>
-            <a href="/auth/functions">Pesquisar</a>
-            
+            <h1><a href="/auth/login">Login</a></h1>
+            <h1><a href="/auth/cadastro">Cadastro</a></h1>
         </div>
     );
 }

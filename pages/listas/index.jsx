@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getListas } from "../../firebase/databaseConnection";
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { useRouter } from "next/router";
+import PesquisaVetor from "../../components/search/functions";
 
 export default function Listas() {
     const [listas, setListas] = useState(null);
@@ -34,6 +35,7 @@ export default function Listas() {
                     <h1 className="text-light">Listas</h1>
                     <Button variant="dark" onClick={() => router.push("/listas/nova")} className="button-new">Nova lista</Button>
                 </div>
+                <PesquisaVetor itens={listas} setItens={setListas} />
                 {listas ?
                     listas.map((lista, index) =>
                         <div
