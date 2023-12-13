@@ -3,7 +3,7 @@
 body{
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #A6A6A6 !important;
+    background-color: #000d2f !important;
 }
 
 .App {
@@ -14,7 +14,6 @@ body{
     justify-content: space-evenly;
     background-color: #567dff;
     padding-top: 2em;
-    height: 100vh;
 }
 
 .App-logo span{

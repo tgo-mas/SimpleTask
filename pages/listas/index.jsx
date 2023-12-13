@@ -6,6 +6,7 @@ import { Button, Container, Modal, Table } from "react-bootstrap";
 import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
 import SignOutButton from "../../components/auth/SignOutButton";
+import NavBar from "../../components/nav/navbar";
 
 export const ListasContext = createContext();
 
@@ -35,8 +36,8 @@ export default function Listas() {
 
     return (
         <>
-            {/* <Navbar page="Listas" /> */}
-            <Container className="p-4 bg-secondary" style={{ height: "100vh" }}>
+            <NavBar />
+            <Container className="p-4 bg-secondary" >
                 <div className="mb-4 d-flex justify-content-between align-items-center">
                     <h1 className="text-light">Listas</h1>
                     <Button variant="dark" onClick={() => router.push("/listas/nova")} className="button-new">Nova lista</Button>
