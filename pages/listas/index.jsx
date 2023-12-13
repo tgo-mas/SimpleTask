@@ -35,6 +35,7 @@ export default function Listas() {
                     <h1 className="text-light">Listas</h1>
                     <Button variant="dark" onClick={() => router.push("/listas/nova")} className="button-new">Nova lista</Button>
                 </div>
+                <hr />
                 <PesquisaVetor itens={listas} setItens={setListas} />
                 {listas ?
                     listas.map((lista, index) =>
