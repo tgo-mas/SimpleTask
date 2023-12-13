@@ -37,3 +37,23 @@ body{
 .bi-bag-check-fill {
     color: black !important;
 }
+
+.tableAddLista{
+    width: 70vw !important;
+}
+
+.tableAddLista thead tr{
+    width: 100%;
+}
+
+@media only screen and (max-width: 768px){
+    .formPartI{
+        flex-direction: column !important;
+        width: 60vw !important;
+        align-items: center;
+        gap: 1em;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 1em;
+    }
+}
