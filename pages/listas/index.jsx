@@ -1,21 +1,26 @@
 import { fetcher } from "../../firebase/util";
 import useSWR from "swr";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, createContext } from 'react';
 import { getListas } from "../../firebase/databaseConnection";
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
 import SignOutButton from "../../components/auth/SignOutButton";
 
+export const ListasContext = createContext();
+
 export default function Listas() {
+    const [listasCont, setListasCont] = useState(null);
     const [listas, setListas] = useState(null);
     const [show, setShow] = useState(false);
     const [listaShow, setListaShow] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
-        getListas().then((listas) => setListas(listas))
-            .catch(err => console.error(err));
+        getListas().then((listas) => {
+            setListas(listas)
+            setListasCont(listas);
+        }).catch(err => console.error(err));
         console.log(listas);
     }, []);
 
@@ -27,7 +32,7 @@ export default function Listas() {
     const toggleShow = () => {
         setShow(!show);
     }
-    
+
     return (
         <>
             {/* <Navbar page="Listas" /> */}
@@ -37,9 +42,11 @@ export default function Listas() {
                     <Button variant="dark" onClick={() => router.push("/listas/nova")} className="button-new">Nova lista</Button>
                 </div>
                 <hr />
-                <PesquisaVetor itens={listas} setItens={setListas} />
-                {listas ?
-                    listas.map((lista, index) =>
+                <ListasContext.Provider value={{listasCont, setListasCont}}>
+                    <PesquisaVetor listas={listas} />
+                </ListasContext.Provider>
+                {listasCont ?
+                    listasCont.map((lista, index) =>
                         <div
                             className="card-lista"
                             key={index}
@@ -47,7 +54,7 @@ export default function Listas() {
                         >
                             <h4>{lista.nome.stringValue}</h4>
                             <ul>
-                                {lista.itens.arrayValue.values.map((item, index) => 
+                                {lista.itens.arrayValue.values.map((item, index) =>
                                     <li key={index}>{`${item.mapValue.fields.qtd.integerValue} ${item.mapValue.fields.nome.stringValue} `}{item.mapValue.fields.check.booleanValue && <i className="bi bi-bag-check-fill"></i>}</li>
                                 )}
                             </ul>
@@ -70,7 +77,7 @@ export default function Listas() {
                             </tr>
                         </thead>
                         <tbody>
-                            {listaShow.itens.arrayValue.values.map(item => 
+                            {listaShow.itens.arrayValue.values.map(item =>
                                 <tr>
                                     <td>{item.mapValue.fields.nome.stringValue}</td>
                                     <td>{item.mapValue.fields.qtd.integerValue}</td>

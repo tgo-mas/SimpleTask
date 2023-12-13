@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import style from "./searchStyle.module.css";
+import { ListasContext } from '../../pages/listas';
+import { Button, Form } from 'react-bootstrap';
 
 const PesquisaVetor = (props) => {
-  const { itens, setItens } = props;
+  const { listas } = props;
+  const listasContext = useContext(ListasContext);
+  const { listasCont, setListasCont } = listasContext;
   const [termoPesquisa, setTermoPesquisa] = useState('');
   const [resultados, setResultados] = useState([]);
   const [erro, setErro] = useState('');
 
   const handlePesquisa = () => {
-    const termoPesquisaLowerCase = termoPesquisa.toLowerCase();
-
-    const resultadosFiltrados = itens.filter(item =>
+    const resultadosFiltrados = listas.filter(item =>
       item.nome.stringValue.toLowerCase().includes(termoPesquisa.toLowerCase()));
 
     if (!resultadosFiltrados.length) {
@@ -18,34 +21,26 @@ const PesquisaVetor = (props) => {
       setErro('');
     }
 
-    setResultados(resultadosFiltrados);
+    setListasCont(resultadosFiltrados);
 
   };
 
   return (
-    <div className='search'>
+    <Form className={style.search}>
       <span className="lead">Pesquisar lista pelo nome</span>
       <div className='App-logo'>
 
-        <input
+        <Form.Control
           type="text"
           placeholder="Digite para pesquisar"
           value={termoPesquisa}
           onChange={(e) => setTermoPesquisa(e.target.value)}
         />
-        <button onClick={handlePesquisa}>Pesquisar</button>
+        <Button variant="dark" onClick={handlePesquisa}>Pesquisar</Button>
 
         {erro && <p>{erro}</p>}
-
-        {resultados.length > 0 && (
-          <ul>
-            {resultados.map((resultado, index) => (
-              <li key={index}>{resultado.nome.stringValue}</li>
-            ))}
-          </ul>
-        )}
       </div>
-    </div>
+    </Form>
   );
 };
 
