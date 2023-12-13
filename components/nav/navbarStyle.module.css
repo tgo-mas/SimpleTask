@@ -1,0 +1,31 @@
+.signOut{
+    margin-right: 2em;
+}
+
+.blueColor{
+    color: #202d4f !important;
+}
+
+.offCanvas{
+    background-color: #001b5f;
+    color: #EEEEEE;
+}
+
+.offCanvas div{
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    gap: 2em;
+    font-size: 20px;
+}
+
+.link{
+    text-decoration: none;
+    color: #AAAAAA;
+    transition: 0.5s ease;
+}
+
+.link:hover{
+    color: #EEEEEE;
+    transform: translateX(1em) scale(1.1);
+}

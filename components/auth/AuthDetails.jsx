@@ -2,6 +2,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase/firebaseConfig';
 import { useRouter } from 'next/router';
+import toast from 'react-hot-toast';
 
 
 const AuthDetails = () => {
@@ -12,6 +13,7 @@ const AuthDetails = () => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user);
+        toast.success("Usuário logado com sucesso!");
         router.push("/listas");
       } else {
         setAuthUser(null);
