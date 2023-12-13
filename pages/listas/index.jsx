@@ -5,6 +5,7 @@ import { getListas } from "../../firebase/databaseConnection";
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
+import SignOutButton from "../../components/auth/SignOutButton";
 
 export default function Listas() {
     const [listas, setListas] = useState(null);

@@ -2,7 +2,6 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase/firebaseConfig';
 import { useRouter } from 'next/router';
-import SignOutButton from './SignOutButton';
 
 
 const AuthDetails = () => {

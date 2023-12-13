@@ -7,7 +7,7 @@ const SignOutButton = ({ onSignOut }) => {
     signOut(auth)
       .then(() => {
         console.log('Usuário desconectou com sucesso');
-        onSignOut(); // Call the parent component's sign-out handler
+        onSignOut();
       })
       .catch((error) => console.log(error));
   };
