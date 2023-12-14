@@ -4,28 +4,30 @@ import { useState } from "react";
 import { Button, Container, Form, InputGroup, Table } from "react-bootstrap";
 import { setarListas } from "../../firebase/databaseConnection";
 import { auth } from "../../firebase/firebaseConfig";
+import CreatableSelect from "react-select/creatable"
 import toast from "react-hot-toast";
 
 export default function NovaLista() {
     const [item, setItem] = useState({ qtd: 0, nome: '', check: false });
-    const [lista, setLista] = useState({ nome: '', prazo: '', user: '', itens: [] });
+    const [lista, setLista] = useState({ nome: '', prazo: '', users: [], itens: [] });
 
     const addItem = () => {
         let newItens = lista.itens;
         newItens.push({ ...item, check: false });
-        setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens });
+        setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens, users: lista.users });
     }
 
     const removeItem = (it) => {
         let newItens = lista.itens;
         if(it === 0) newItens.shift();
         newItens.splice(it, it);
-        setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens });
+        setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens, users: lista.users });
     }   
 
     const SalvarLista = () => {
-        const id = auth.currentUser.uid;
-        setarListas({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, user: id }).then(() => {
+        const newUsers = lista.users;
+        newUsers.push(auth.currentUser.email);
+        setarListas({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: newUsers}).then(() => {
             toast.success("Lista adicionada com sucesso!");
         }).catch(err => {
             toast.error(`Um erro ocorreu: ${err.message}`); 
@@ -49,8 +51,9 @@ export default function NovaLista() {
                         <Form.Control 
                             aria-label="Nome da lista" 
                             aria-labelledby="nomeLista" 
-                            onChange={(e) => setLista({ nome: e.target.value, prazo: lista.prazo, itens: lista.itens })} />
-                    </InputGroup><InputGroup className="ms-4 me-4 input-group">
+                            onChange={(e) => setLista({ nome: e.target.value, prazo: lista.prazo, itens: lista.itens, users: lista.users })} />
+                    </InputGroup>
+                    <InputGroup className="ms-4 me-4 input-group">
                         <InputGroup.Text id="prazo">
                             Prazo
                         </InputGroup.Text>
@@ -58,7 +61,13 @@ export default function NovaLista() {
                         type="date" 
                         aria-label="Prazo" 
                         aria-labelledby="prazo"
-                        onChange={(e) => setLista({ nome: lista.nome, prazo: e.target.value, itens: lista.itens })} />
+                        onChange={(e) => setLista({ nome: lista.nome, prazo: e.target.value, itens: lista.itens, users: lista.users })} />
+                    </InputGroup>
+                    <InputGroup className="ms-4 me-4">
+                        <CreatableSelect 
+                        isMulti
+                        onChange={(target) => setLista({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: target.map(item => item.value)})}
+                        />
                     </InputGroup>
                 </div>
                 <Table className="m-lg-4 tableAddLista">

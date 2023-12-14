@@ -17,7 +17,10 @@ export default function Listas() {
 
     useEffect(() => {
         getListas().then((listas) => {
-            const listaFilter = listas.filter(lista => lista.user?.stringValue === auth.currentUser.uid);
+            const listaFilter = listas.filter(lista => {
+                const email = lista.users?.arrayValue.values.filter(user => user.stringValue === auth.currentUser.email);
+                return email?.length > 0;
+            });
             setListas(listaFilter);
             setListasCont(listaFilter);
         }).catch(err => console.error(err));
@@ -42,7 +45,7 @@ export default function Listas() {
                     <Button variant="dark" onClick={() => router.push("/listas/nova")} className="button-new">Nova lista</Button>
                 </div>
                 <hr />
-                <ListasContext.Provider value={{listasCont, setListasCont}}>
+                <ListasContext.Provider value={{ listasCont, setListasCont }}>
                     <PesquisaVetor listas={listas} />
                 </ListasContext.Provider>
                 {listasCont ?
