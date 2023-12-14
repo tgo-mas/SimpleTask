@@ -1,6 +1,7 @@
 import React from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase/firebaseConfig';
+import { IconLogout } from '@tabler/icons-react';
 
 const SignOutButton = ({ onSignOut }) => {
   const handleSignOut = () => {
@@ -12,7 +13,7 @@ const SignOutButton = ({ onSignOut }) => {
       .catch((error) => console.log(error));
   };
 
-  return <button onClick={handleSignOut}>Sair</button>;
+  return <IconLogout className=" me-4" style={{cursor: "pointer", color: '#202d4f'}} onClick={handleSignOut} />;
 };
 
 export default SignOutButton;

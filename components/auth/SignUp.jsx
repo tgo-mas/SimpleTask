@@ -13,8 +13,9 @@ const SignUp = () => {
         createUserWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
             console.log(userCredential);
+            toast.error("Usuário cadastrado com sucesso!");
         }).catch((error) => {
-            console.log(error);
+            toast.error(`Um erro ocorreu: ${error.message}`);
         });
     }
 

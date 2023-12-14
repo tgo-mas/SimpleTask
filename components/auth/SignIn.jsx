@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { auth } from "../../firebase/firebaseConfig";
 import { Button, Container, Form } from "react-bootstrap";
 import style from "./formStyle.module.css";
+import toast from "react-hot-toast";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
@@ -29,8 +30,9 @@ const SignIn = () => {
             } else {
                 localStorage.removeItem('manterLogado');
             }
+
         }).catch((error) => {
-            console.log(error);
+            toast.error(`Um erro ocorreu: ${error.message}`);
         });
     }
 
