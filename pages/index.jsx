@@ -19,13 +19,13 @@ export default function Home() {
             </div>
             <hr style={white} />
             <section>
-                <article className="d-flex justify-content-between align-items-center p-4">
-                    <h5 style={{ color: "#BBB" }}>Sua nova maneira de organizar listas de compras e afazeres!</h5>
+                <article className="d-md-flex text-center justify-content-between align-items-center p-4">
+                    <h5 style={{ color: "#BBB" }} className="m-4">Sua nova maneira de organizar listas de compras e afazeres!</h5>
                     <Image style={{ borderRadius: "10px" }} src={list} width={300} height={300} alt="Lista de compras"></Image>
                 </article>
-                <article  className="d-flex justify-content-between align-items-center p-4">
+                <article  className="d-md-flex text-center justify-content-between align-items-center p-4">
                     <Image style={{ borderRadius: "10px" }} src={list} width={300} height={300} alt="Lista de compras"></Image>
-                    <h5 style={{color: "#BBB"}} className="ms-4 ps-4">Agora, com um clique, você e seus roommates saberão exatamente o que comprar ou fazer!</h5>
+                    <h5 style={{color: "#BBB"}} className="m-4 ps-md-4">Agora, com um clique, você e seus roommates saberão exatamente o que comprar ou fazer!</h5>
                 </article>
             </section>
         </Container>

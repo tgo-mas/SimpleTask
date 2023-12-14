@@ -31,7 +31,7 @@ export default function NavBar(){
             </Navbar>
 
             <Offcanvas show={show} onHide={toggleOffcanvas} className={style.offCanvas}>
-                <Offcanvas.Header closeButton></Offcanvas.Header>
+                <Offcanvas.Header closeButton closeVariant="white"></Offcanvas.Header>
                 <div>
                     <Link className={style.link} href="/">Início</Link>
                     <Link className={style.link} href="/listas">Listas</Link>

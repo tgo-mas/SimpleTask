@@ -1,12 +1,10 @@
-import { fetcher } from "../../firebase/util";
-import useSWR from "swr";
 import { useEffect, useState, createContext } from 'react';
 import { getListas } from "../../firebase/databaseConnection";
 import { Button, Container, Modal, Table } from "react-bootstrap";
 import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
-import SignOutButton from "../../components/auth/SignOutButton";
 import NavBar from "../../components/nav/navbar";
+import { auth } from '../../firebase/firebaseConfig';
 
 export const ListasContext = createContext();
 
@@ -19,8 +17,9 @@ export default function Listas() {
 
     useEffect(() => {
         getListas().then((listas) => {
-            setListas(listas)
-            setListasCont(listas);
+            const listaFilter = listas.filter(lista => lista.user?.stringValue === auth.currentUser.uid);
+            setListas(listaFilter);
+            setListasCont(listaFilter);
         }).catch(err => console.error(err));
         console.log(listas);
     }, []);
