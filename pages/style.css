@@ -45,6 +45,22 @@ body{
     width: 100%;
 }
 
+.links {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.links a{
+    text-decoration: none;
+    color: #aaa;
+    transition: 0.3s ease;
+}
+
+.links a:hover {
+    color: #eee;
+    transform: scale(1.2);
+}
+
 @media only screen and (max-width: 768px){
     .formPartI{
         flex-direction: column !important;

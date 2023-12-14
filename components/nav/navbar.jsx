@@ -13,7 +13,7 @@ export default function NavBar(){
 
     const onSignOut = () => {
         toast.success("Usuário desconectado com sucesso!");
-        router.push("/auth/login");
+        router.push("/");
     };
 
     const toggleOffcanvas = () => {

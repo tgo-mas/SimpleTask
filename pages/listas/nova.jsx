@@ -1,3 +1,5 @@
+import { IconArrowLeft, IconSignLeft } from "@tabler/icons-react";
+import Link from "next/link";
 import { useState } from "react";
 import { Button, Container, Form, InputGroup, Table } from "react-bootstrap";
 import { collection, addDoc, Firestore, doc, setDoc} from "firebase/firestore"; 
@@ -34,6 +36,7 @@ export default function NovaLista() {
         <Container className="p-4 bg-secondary" style={{ height: "100vh" }}>
             <div className="mb-4 d-flex justify-content-between align-items-center">
                 <h1 className="text-light">Nova lista</h1>
+                <Link href="/listas"><IconArrowLeft color="#eee" size={35}/></Link>
             </div>
             <hr />
             <Form className="d-flex flex-column align-items-center">
