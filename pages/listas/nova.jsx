@@ -2,6 +2,11 @@ import { IconArrowLeft, IconSignLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button, Container, Form, InputGroup, Table } from "react-bootstrap";
+import { collection, addDoc, Firestore, doc, setDoc} from "firebase/firestore"; 
+
+import Listas from ".";
+import { setarListas } from "../../firebase/databaseConnection";
+
 
 
 export default function NovaLista() {
@@ -21,10 +26,11 @@ export default function NovaLista() {
         setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens });
     }   
 
-    const salvarLista = () => {
-        console.log(lista);
-        // Aqui ficará a função de inserir no banco de dados
+    const SalvarLista = () => {
+        let newItens = lista.itens;
+            setarListas(lista);
     }
+
 
     return (
         <Container className="p-4 bg-secondary" style={{ height: "100vh" }}>
@@ -75,7 +81,7 @@ export default function NovaLista() {
                                 type="number"
                                 placeholder="1"
                                 id="qtd"
-                                onChange={e => setItem({ qtd: e.target.value, nome: item.nome})}
+                                onChange={e => setItem({ qtd: e.target.valueAsNumber, nome: item.nome})}
                             /></td>
                             <td><Form.Control
                                 placeholder="Nome do item"
@@ -87,7 +93,7 @@ export default function NovaLista() {
                     </tbody>
                 </Table>
                 <div className="d-flex justify-content-end">
-                    <Button onClick={salvarLista} variant="success">Salvar</Button>
+                    <Button onClick={SalvarLista} variant="success">Salvar</Button>
                 </div>
             </Form>
         </Container>

@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 export async function getListas(){
     let listas = await getDocs(collection(db, "listas"));
@@ -8,5 +8,18 @@ export async function getListas(){
     }else {
         throw new Error("Nenhuma lista encontrada");
     } 
+}
+
+
+// Add a new document in collection "cities"
+
+export async function setarListas(lista){
+    console.log(lista.status);
+    await setDoc(doc(db, "listas", lista.nome), {
+        itens: lista.itens,
+        nome: lista.nome,
+        prazo: lista.prazo,
+        status : "Pendente",
+      });
 }
 
