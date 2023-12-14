@@ -18,8 +18,8 @@ export default function Listas() {
     useEffect(() => {
         getListas().then((listas) => {
             const listaFilter = listas.filter(lista => {
-                const email = lista.users?.arrayValue.values.filter(user => user.stringValue === auth.currentUser.email);
-                return email?.length > 0;
+                const email = lista.users.arrayValue.values.filter(user => user.stringValue === auth.currentUser.email);
+                return email.length > 0;
             });
             setListas(listaFilter);
             setListasCont(listaFilter);
