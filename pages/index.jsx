@@ -7,7 +7,6 @@ import PrivateRoute from "../components/auth/PrivateRoute";
 export default function Home() {
     const white = { color: "#EEE" };
     return (
-        <PrivateRoute>
             <Container>
                 <div className="text-center mt-4 pt-4 pb-4 mb-4">
                     <h1 className="text-light mt-4 pt-4">SimpleTask</h1>
@@ -31,6 +30,5 @@ export default function Home() {
                     </article>
                 </section>
             </Container>
-        </PrivateRoute>
     );
 };

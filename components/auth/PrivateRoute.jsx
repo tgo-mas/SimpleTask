@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { auth } from '../../firebase/firebaseConfig';
+import toast from 'react-hot-toast';
 
 const PrivateRoute = ({ children }) => {
   const router = useRouter();
@@ -10,8 +11,8 @@ const PrivateRoute = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (!user) {
         // Verifica se a página atual não é a página de login antes de redirecionar
-        if (router.pathname !== '/auth/login') {
-          router.push('/auth/login');
+        if (router.pathname !== "/auth/login" && router.pathname !== "/auth/cadastro" && router.pathname !== "/") {
+          router.push('/');
         }
       }
 
@@ -22,10 +23,12 @@ const PrivateRoute = ({ children }) => {
     return () => unsubscribe();
   }, [router]);
 
-  if (loading) {
-    // Adiciona um indicador de carregamento, se necessário
-    return <div>Carregando...</div>;
-  }
+  // tgomas: -comentei pq tava dando um erro com div, n sei se era isso..
+  // if (loading) {
+  //   // Adiciona um indicador de carregamento, se necessário
+  //   toast.loading("Verificando usuário", 3000);
+  //   return <div>Carregando...</div>;
+  // }
 
   return <>{children}</>;
 };

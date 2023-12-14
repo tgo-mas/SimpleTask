@@ -18,7 +18,7 @@ export async function setarListas(lista){
         itens: lista.itens,
         nome: lista.nome,
         prazo: lista.prazo,
-        user: lista.user,
+        users: lista.users,
         status : "Pendente",
       });
 }
