@@ -1,17 +1,14 @@
-import { IconArrowLeft, IconSignLeft } from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button, Container, Form, InputGroup, Table } from "react-bootstrap";
-import { collection, addDoc, Firestore, doc, setDoc} from "firebase/firestore"; 
-
-import Listas from ".";
 import { setarListas } from "../../firebase/databaseConnection";
-
-
+import { auth } from "../../firebase/firebaseConfig";
+import toast from "react-hot-toast";
 
 export default function NovaLista() {
     const [item, setItem] = useState({ qtd: 0, nome: '', check: false });
-    const [lista, setLista] = useState({ nome: '', prazo: '', itens: [] });
+    const [lista, setLista] = useState({ nome: '', prazo: '', user: '', itens: [] });
 
     const addItem = () => {
         let newItens = lista.itens;
@@ -27,8 +24,12 @@ export default function NovaLista() {
     }   
 
     const SalvarLista = () => {
-        let newItens = lista.itens;
-            setarListas(lista);
+        const id = auth.currentUser.uid;
+        setarListas({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, user: id }).then(() => {
+            toast.success("Lista adicionada com sucesso!");
+        }).catch(err => {
+            toast.error(`Um erro ocorreu: ${err.message}`); 
+        });
     }
 
 

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { auth } from "../../firebase/firebaseConfig";
 import { Button, Container, Form } from "react-bootstrap";
 import style from "./formStyle.module.css";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");

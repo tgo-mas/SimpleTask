@@ -14,11 +14,11 @@ export async function getListas(){
 // Add a new document in collection "cities"
 
 export async function setarListas(lista){
-    console.log(lista.status);
     await setDoc(doc(db, "listas", lista.nome), {
         itens: lista.itens,
         nome: lista.nome,
         prazo: lista.prazo,
+        user: lista.user,
         status : "Pendente",
       });
 }
