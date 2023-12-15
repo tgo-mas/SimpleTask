@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 
 export async function getListas(){
     let listas = await getDocs(collection(db, "listas"));
@@ -21,5 +21,17 @@ export async function setarListas(lista){
         users: lista.users,
         status : "Pendente",
       });
+      
 }
+export async function updateLista(lista){
+    const docRef = doc(db,"listas", lista.nome.stringValue);
+    console.log(docRef)
+    await updateDoc(docRef,{
+        itens: lista.itens.arrayValue.values,
+        prazo: lista.prazo.stringValue,
+        users: lista.users.arrayValue.values,
+        status : "Pendente",
+    })
+  };
+
 
