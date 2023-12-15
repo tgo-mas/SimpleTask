@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 
 export async function getListas(){
     let listas = await getDocs(collection(db, "listas"));
@@ -9,9 +9,6 @@ export async function getListas(){
         throw new Error("Nenhuma lista encontrada");
     } 
 }
-
-
-// Add a new document in collection "cities"
 
 export async function setarListas(lista){
     await setDoc(doc(db, "listas", lista.nome), {
@@ -23,14 +20,40 @@ export async function setarListas(lista){
       });
 }
 
+export async function updateLista(lista){
+    const newItens = lista.itens.arrayValue.values.map(item => {
+        const fields = item.mapValue.fields;
+        item.nome = fields.nome.stringValue;
+        item.qtd = fields.qtd.stringValue;
+        item.check = fields.check.booleanValue;
+        delete item.mapValue;
+        return item;
+    });
+
+    const newUsers = lista.users.arrayValue.values.map(user => user.stringValue);
+    console.log(newUsers);
+
+    const docRef = doc(db,"listas", lista.nome.stringValue);
+    updateDoc(docRef,{
+        itens: newItens,
+        prazo: lista.prazo.stringValue,
+        users: newUsers,
+        status : "Pendente",
+    }).then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.log(err);
+    });
+};
+
 export const removeLista = async (listaId) => {
     try {
         
         // Referência para o doccumento da lista no firestore
-        const listaRef = db.collection("listas").doc(listaId);
+        const listaRef = doc(db, "listas", listaId);
 
         // Remove o documento da lista  
-        await listaRef.delete();
+        await deleteDoc(listaRef);
 
         console.log("Lista removida com sucesso!");
     } catch (error) {

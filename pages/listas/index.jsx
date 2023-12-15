@@ -1,9 +1,11 @@
 import { useEffect, useState, createContext } from 'react';
-import { getListas } from "../../firebase/databaseConnection";
-import { Button, Container, Modal, Table } from "react-bootstrap";
+import { getListas, updateLista } from "../../firebase/databaseConnection";
+import { Button, Container, Modal, Table, Form } from "react-bootstrap";
 import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
 import NavBar from "../../components/nav/navbar";
+import { IconShoppingBagCheck } from '@tabler/icons-react';
+import toast, { LoaderIcon } from 'react-hot-toast';
 import { auth } from '../../firebase/firebaseConfig';
 import { removeLista } from '../../firebase/databaseConnection';
 
@@ -17,6 +19,10 @@ export default function Listas() {
     const router = useRouter();
 
     useEffect(() => {
+        fetchListas();
+    }, []);
+
+    const fetchListas = () => {
         getListas().then((listas) => {
             const listaFilter = listas.filter(lista => {
                 const email = lista.users.arrayValue.values.filter(user => user.stringValue === auth.currentUser.email);
@@ -24,9 +30,8 @@ export default function Listas() {
             });
             setListas(listaFilter);
             setListasCont(listaFilter);
-        }).catch(err => console.error(err));
-        console.log(listas);
-    }, []);
+        }).catch(err => console.log(err.message));
+    }
 
     const showLista = (lista) => {
         setListaShow(lista);
@@ -37,19 +42,43 @@ export default function Listas() {
         setShow(!show);
     }
 
-    const removerLista = async (listaId) => {
-        try {
-            
-            await removeLista(listaId);
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        toggleShow();
+        fetchListas();
+        // Lógica de atualização da lista no banco de dados
+        console.log("Lista atualizada:", listaShow);
+        updateLista(listaShow).then(res => toast.success("Lista atualizada com sucesso!"))
+            .catch(err => toast.error("Um erro ocorreu: " + err.message));
+    }
 
-            // Atualize o estado removendo a lista da lista de listas
-            setListasCont((prevListas) => prevListas.filter(lista => lista.id !== listaId));
-            setListas((prevListas) => prevListas.filter(lista => lista.id !== listaId));
-
-            setShow(false);
-        } catch (error) {
-            console.error("Erro ao remover a lista:", error);
+    const handleItemEdit = (itemIndex, field, value) => {
+        // Atualize o estado de listaShow para refletir a edição do item
+        const updatedItems = [...listaShow.itens.arrayValue.values];
+        if (field === 'check') {
+            updatedItems[itemIndex].mapValue.fields[field].booleanValue = value;
+        } else {
+            updatedItems[itemIndex].mapValue.fields[field].stringValue = value;
         }
+
+        setListaShow({
+            ...listaShow,
+            itens: {
+                arrayValue: {
+                    values: updatedItems,
+                },
+            },
+        });
+    };
+
+    const removerLista = async (listaId) => {
+        removeLista(listaId).then(res => {
+            fetchListas();
+            setShow(false);
+            toast.success("Lista removida com sucesso!")
+        }).catch(error => {
+            toast.error("Erro ao remover a lista: ", error.message);
+        });
     }
 
     return (
@@ -65,55 +94,84 @@ export default function Listas() {
                     <PesquisaVetor listas={listas} />
                 </ListasContext.Provider>
                 {listasCont ?
-                    listasCont.map((lista, index) =>
+                    listasCont.map((lista, index) => (
                         <div
                             className="card-lista"
                             key={index}
                             onClick={() => showLista(lista)}
                         >
-                            <h4>{lista.nome.stringValue}</h4>
+                            <div className='d-flex gap-2 align-items-bottom'>
+                                <h4>{lista.nome.stringValue}</h4>
+                                <p className='lead fs-5'> até {lista.prazo.stringValue}</p>
+                            </div>
                             <ul>
-                                {lista.itens.arrayValue.values.map((item, index) =>
-                                    <li key={index}>{`${item.mapValue.fields.qtd.integerValue} ${item.mapValue.fields.nome.stringValue} `}{item.mapValue.fields.check.booleanValue && <i className="bi bi-bag-check-fill"></i>}</li>
-                                )}
+                                {lista.itens.arrayValue.values[0].mapValue ? lista.itens.arrayValue.values.map((item, itemIndex) => (
+                                    <li key={itemIndex} className={item.mapValue?.fields.check.booleanValue && "cross"}>
+                                        {`${item.mapValue?.fields.qtd.stringValue} ${item.mapValue?.fields.nome.stringValue} `}{item.mapValue?.fields.check.booleanValue ? <IconShoppingBagCheck size={20}/> : ''}
+                                    </li>
+                                )) : <LoaderIcon size={600} />}
                             </ul>
-                            <Button variant="danger" onClick={(e) => { e.stopPropagation(); removerLista(lista.id); }} > <i className="bi bi-trash"></i>Remover Lista</Button>
                         </div>
-                    )
-                    : <span>Carregando...</span>}
+                    ))
+                    : <LoaderIcon size={1000} />}
+                {listaShow && (
+                    <Modal show={show} onHide={toggleShow}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>{listaShow?.nome.stringValue}</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Quantidade</th>
+                                        <th>Comprado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {listaShow.itens.arrayValue.values.map((item, itemIndex) => (
+                                        <tr key={itemIndex}>
+                                            <td>
+                                                <Form.Control
+                                                    type="text"
+                                                    value={item.mapValue ? item.mapValue.fields.nome.stringValue : item.nome.stringValue}
+                                                    onChange={(e) => handleItemEdit(itemIndex, 'nome', e.target.value)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={item.mapValue ? item.mapValue.fields.qtd.stringValue : item.qtd.stringValue}
+                                                    onChange={(e) => handleItemEdit(itemIndex, 'qtd', e.target.value)}
+                                                />
+                                            </td>
+                                            <td>
+                                                <Form.Check
+                                                    type="checkbox"
+                                                    label="Comprado"
+                                                    checked={item.mapValue ? item.mapValue.fields.check.booleanValue : item.check.booleanValue}
+                                                    onChange={(e) => handleItemEdit(itemIndex, 'check', e.target.checked)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="danger" onClick={(e) => { e.stopPropagation(); removerLista(listaShow.nome.stringValue); }}>
+                                <i className='bi bi-trash'></i> Remover Lista
+                            </Button>
+                            <Button variant="success" onClick={handleEditSubmit}>
+                                Salvar
+                            </Button>
+                            <Button variant="secondary" onClick={toggleShow}>
+                                Close
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+                )}
             </Container>
-
-            {listaShow && <Modal show={show} onHide={toggleShow}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{listaShow.nome.stringValue}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Quantidade</th>
-                                <th>Comprado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {listaShow.itens.arrayValue.values.map(item =>
-                                <tr>
-                                    <td>{item.mapValue.fields.nome.stringValue}</td>
-                                    <td>{item.mapValue.fields.qtd.integerValue}</td>
-                                    <td>{item.mapValue.fields.check.booleanValue && <i className="bi bi-bag-check-fill"></i>}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </Table>
-
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={toggleShow}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>}
         </>
     );
 }
