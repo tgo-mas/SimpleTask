@@ -8,3 +8,7 @@
     display: flex;
     justify-content: center;
 }
+
+.customGoogleButton {
+    margin-top: 10px;
+}

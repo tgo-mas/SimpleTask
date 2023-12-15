@@ -1,9 +1,10 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState, useEffect } from 'react';
-import { auth } from "../../firebase/firebaseConfig";
+import { auth, provider } from "../../firebase/firebaseConfig";
 import { Button, Container, Form } from "react-bootstrap";
 import style from "./formStyle.module.css";
 import toast from "react-hot-toast";
+import { signInWithPopup } from "firebase/auth";
 
 const SignIn = () => {
     const [email, setEmail] = useState("");
@@ -36,6 +37,15 @@ const SignIn = () => {
         });
     }
 
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            console.log(result.user);
+        } catch (error) {
+            toast.error(`Um erro ocorreu: ${error.message}`);
+        }
+    };
+
     return (
         <Container className={style.signInContainer + " m-4"}>
             <Form onSubmit={signIn} className="m-4">
@@ -61,6 +71,7 @@ const SignIn = () => {
                     onChange={() => setManterLogado(!manterLogado)}
                 />
                 <Button type="submit" variant="dark" >Entrar</Button>
+                <Button variant="dark" onClick={signInWithGoogle} className={`custom-google-button ${style.customGoogleButton}`}>Entrar com o Google</Button>
             </Form>
         </Container>
     );
