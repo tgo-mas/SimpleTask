@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState, useEffect } from 'react';
-import { auth } from "../../firebase/firebaseConfig";
+import { auth, provider } from "../../firebase/firebaseConfig";
 import { Button, Container, Form } from "react-bootstrap";
 import style from "./formStyle.module.css";
 import toast from "react-hot-toast";
