@@ -5,7 +5,7 @@ export default function Login() {
     return (
         <div className="App">
             <div className="App-logo">
-                <span className="lead">Bem-vindo ao SimpleTask</span>
+                <span className="lead text-light">Bem-vindo ao SimpleTask</span>
             </div>
             <SignIn />
             <AuthDetails />
