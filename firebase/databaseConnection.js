@@ -1,5 +1,5 @@
 import { db } from "./firebaseConfig";
-import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 
 export async function getListas(){
     let listas = await getDocs(collection(db, "listas"));
@@ -45,3 +45,19 @@ export async function updateLista(lista){
         console.log(err);
     });
 };
+
+export const removeLista = async (listaId) => {
+    try {
+        
+        // Referência para o doccumento da lista no firestore
+        const listaRef = doc(db, "listas", listaId);
+
+        // Remove o documento da lista  
+        await deleteDoc(listaRef);
+
+        console.log("Lista removida com sucesso!");
+    } catch (error) {
+        console.error("Erro ao remover lista:", error);
+        throw error;
+    }
+}

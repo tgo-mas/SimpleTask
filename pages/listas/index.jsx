@@ -7,6 +7,7 @@ import NavBar from "../../components/nav/navbar";
 import { IconShoppingBagCheck } from '@tabler/icons-react';
 import toast, { LoaderIcon } from 'react-hot-toast';
 import { auth } from '../../firebase/firebaseConfig';
+import { removeLista } from '../../firebase/databaseConnection';
 
 export const ListasContext = createContext();
 
@@ -69,6 +70,16 @@ export default function Listas() {
             },
         });
     };
+
+    const removerLista = async (listaId) => {
+        removeLista(listaId).then(res => {
+            fetchListas();
+            setShow(false);
+            toast.success("Lista removida com sucesso!")
+        }).catch(error => {
+            toast.error("Erro ao remover a lista: ", error.message);
+        });
+    }
 
     return (
         <>
@@ -148,6 +159,9 @@ export default function Listas() {
                             </Table>
                         </Modal.Body>
                         <Modal.Footer>
+                            <Button variant="danger" onClick={(e) => { e.stopPropagation(); removerLista(listaShow.nome.stringValue); }}>
+                                <i className='bi bi-trash'></i> Remover Lista
+                            </Button>
                             <Button variant="success" onClick={handleEditSubmit}>
                                 Salvar
                             </Button>
