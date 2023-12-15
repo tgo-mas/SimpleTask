@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import PesquisaVetor from "../../components/search/functions";
 import NavBar from "../../components/nav/navbar";
 import { auth } from '../../firebase/firebaseConfig';
+import { removeLista } from '../../firebase/databaseConnection';
 
 export const ListasContext = createContext();
 
@@ -36,6 +37,21 @@ export default function Listas() {
         setShow(!show);
     }
 
+    const removerLista = async (listaId) => {
+        try {
+            
+            await removeLista(listaId);
+
+            // Atualize o estado removendo a lista da lista de listas
+            setListasCont((prevListas) => prevListas.filter(lista => lista.id !== listaId));
+            setListas((prevListas) => prevListas.filter(lista => lista.id !== listaId));
+
+            setShow(false);
+        } catch (error) {
+            console.error("Erro ao remover a lista:", error);
+        }
+    }
+
     return (
         <>
             <NavBar />
@@ -61,6 +77,7 @@ export default function Listas() {
                                     <li key={index}>{`${item.mapValue.fields.qtd.integerValue} ${item.mapValue.fields.nome.stringValue} `}{item.mapValue.fields.check.booleanValue && <i className="bi bi-bag-check-fill"></i>}</li>
                                 )}
                             </ul>
+                            <Button variant="danger" onClick={(e) => { e.stopPropagation(); removerLista(lista.id); }} > <i className="bi bi-trash"></i>Remover Lista</Button>
                         </div>
                     )
                     : <span>Carregando...</span>}

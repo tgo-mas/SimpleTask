@@ -23,3 +23,18 @@ export async function setarListas(lista){
       });
 }
 
+export const removeLista = async (listaId) => {
+    try {
+        
+        // Referência para o doccumento da lista no firestore
+        const listaRef = db.collection("listas").doc(listaId);
+
+        // Remove o documento da lista  
+        await listaRef.delete();
+
+        console.log("Lista removida com sucesso!");
+    } catch (error) {
+        console.error("Erro ao remover lista:", error);
+        throw error;
+    }
+}
