@@ -12,7 +12,6 @@ body{
     align-items: center;
     flex-direction: column;
     justify-content: space-evenly;
-    background-color: #567dff;
     padding-top: 2em;
 }
 
@@ -74,5 +73,10 @@ body{
         padding: 0;
         margin: 0;
         margin-bottom: 1em;
+    }
+
+    article{
+        flex-direction: column;
+        gap: 2em;
     }
 }

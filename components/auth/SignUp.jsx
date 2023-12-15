@@ -33,7 +33,7 @@ const SignUp = () => {
   return (
     <Container className={style.signInContainer + " m-4"}>
         <Form onSubmit={signUp} className="m-4">
-            <h1 className="m-4 text-center">Criar Conta</h1>
+            <h1 className="m-4 text-center text-light">Criar Conta</h1>
             <Form.Control 
                 type="email" 
                 placeholder='Coloque seu email' 
@@ -47,8 +47,8 @@ const SignUp = () => {
                 onChange={(e) => setSenha(e.target.value)}
                 className="mt-4 mb-4"
             ></Form.Control>
-            <Button type="submit" variant="dark" >Criar</Button>
-            <Button variant="dark" onClick={signUpWithGoogle} className={`custom-google-button ${style.customGoogleButton}`}>Criar conta com o Google</Button>
+            <Button type="submit" variant="light" >Criar</Button>
+            <Button variant="light" onClick={signUpWithGoogle} className={`custom-google-button ${style.customGoogleButton}`}>Criar conta com o Google</Button>
         </Form>
         
     </Container>

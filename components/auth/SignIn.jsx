@@ -49,7 +49,7 @@ const SignIn = () => {
     return (
         <Container className={style.signInContainer + " m-4"}>
             <Form onSubmit={signIn} className="m-4">
-                <h1 className="m-4 text-center">Login</h1>
+                <h1 className="m-4 text-center text-light">Login</h1>
                 <Form.Control
                     type="email" 
                     placeholder='Coloque seu email' 
@@ -65,13 +65,14 @@ const SignIn = () => {
                     className="mt-4 mb-4"
                 ></Form.Control>
                 <Form.Check
+                    className="text-light"
                     type="checkbox"
                     label="Manter logado"
                     checked={manterLogado}
                     onChange={() => setManterLogado(!manterLogado)}
                 />
-                <Button type="submit" variant="dark" >Entrar</Button>
-                <Button variant="dark" onClick={signInWithGoogle} className={`custom-google-button ${style.customGoogleButton}`}>Entrar com o Google</Button>
+                <Button type="submit" variant="light" >Entrar</Button>
+                <Button variant="light" onClick={signInWithGoogle} className={`custom-google-button ${style.customGoogleButton}`}>Entrar com o Google</Button>
             </Form>
         </Container>
     );
