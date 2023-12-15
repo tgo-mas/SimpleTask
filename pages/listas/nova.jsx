@@ -91,7 +91,7 @@ export default function NovaLista() {
                                 type="number"
                                 placeholder="1"
                                 id="qtd"
-                                onChange={e => setItem({ qtd: e.target.valueAsNumber, nome: item.nome })}
+                                onChange={e => setItem({ qtd: e.target.value, nome: item.nome })}
                             /></td>
                             <td><Form.Control
                                 placeholder="Nome do item"
