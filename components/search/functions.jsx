@@ -27,7 +27,7 @@ const PesquisaVetor = (props) => {
 
   return (
     <Form className={style.search}>
-      <span className="lead">Pesquisar lista pelo nome</span>
+      <span className="lead text-light">Pesquisar lista pelo nome</span>
       <div className='App-logo'>
 
         <Form.Control

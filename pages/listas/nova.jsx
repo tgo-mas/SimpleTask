@@ -19,18 +19,18 @@ export default function NovaLista() {
 
     const removeItem = (it) => {
         let newItens = lista.itens;
-        if(it === 0) newItens.shift();
+        if (it === 0) newItens.shift();
         newItens.splice(it, it);
         setLista({ nome: lista.nome, prazo: lista.prazo, itens: newItens, users: lista.users });
-    }   
+    }
 
     const SalvarLista = () => {
         const newUsers = lista.users;
         newUsers.push(auth.currentUser.email);
-        setarListas({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: newUsers}).then(() => {
+        setarListas({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: newUsers }).then(() => {
             toast.success("Lista adicionada com sucesso!");
         }).catch(err => {
-            toast.error(`Um erro ocorreu: ${err.message}`); 
+            toast.error(`Um erro ocorreu: ${err.message}`);
         });
     }
 
@@ -39,7 +39,7 @@ export default function NovaLista() {
         <Container className="p-4 bg-secondary" style={{ height: "100vh" }}>
             <div className="mb-4 d-flex justify-content-between align-items-center">
                 <h1 className="text-light">Nova lista</h1>
-                <Link href="/listas"><IconArrowLeft color="#eee" size={35}/></Link>
+                <Link href="/listas"><IconArrowLeft color="#eee" size={35} /></Link>
             </div>
             <hr />
             <Form className="d-flex flex-column align-items-center">
@@ -48,27 +48,27 @@ export default function NovaLista() {
                         <InputGroup.Text id="nomeLista">
                             Nome
                         </InputGroup.Text>
-                        <Form.Control 
-                            aria-label="Nome da lista" 
-                            aria-labelledby="nomeLista" 
+                        <Form.Control
+                            aria-label="Nome da lista"
+                            aria-labelledby="nomeLista"
                             onChange={(e) => setLista({ nome: e.target.value, prazo: lista.prazo, itens: lista.itens, users: lista.users })} />
                     </InputGroup>
                     <InputGroup className="ms-4 me-4 input-group">
                         <InputGroup.Text id="prazo">
                             Prazo
                         </InputGroup.Text>
-                        <Form.Control 
-                        type="date" 
-                        aria-label="Prazo" 
-                        aria-labelledby="prazo"
-                        onChange={(e) => setLista({ nome: lista.nome, prazo: e.target.value, itens: lista.itens, users: lista.users })} />
+                        <Form.Control
+                            type="date"
+                            aria-label="Prazo"
+                            aria-labelledby="prazo"
+                            onChange={(e) => setLista({ nome: lista.nome, prazo: e.target.value, itens: lista.itens, users: lista.users })} />
                     </InputGroup>
-                    <InputGroup className="ms-4 me-4">
-                        <CreatableSelect 
+                    <CreatableSelect 
+                        placeholder="Compatilhar com.."
+                        className="ms-4 me-4"
                         isMulti
-                        onChange={(target) => setLista({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: target.map(item => item.value)})}
-                        />
-                    </InputGroup>
+                        onChange={(target) => setLista({ nome: lista.nome, prazo: lista.prazo, itens: lista.itens, users: target.map(item => item.value) })}
+                    />
                 </div>
                 <Table className="m-lg-4 tableAddLista">
                     <thead>
@@ -91,7 +91,7 @@ export default function NovaLista() {
                                 type="number"
                                 placeholder="1"
                                 id="qtd"
-                                onChange={e => setItem({ qtd: e.target.valueAsNumber, nome: item.nome})}
+                                onChange={e => setItem({ qtd: e.target.valueAsNumber, nome: item.nome })}
                             /></td>
                             <td><Form.Control
                                 placeholder="Nome do item"

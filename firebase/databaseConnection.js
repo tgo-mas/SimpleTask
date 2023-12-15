@@ -10,9 +10,6 @@ export async function getListas(){
     } 
 }
 
-
-// Add a new document in collection "cities"
-
 export async function setarListas(lista){
     await setDoc(doc(db, "listas", lista.nome), {
         itens: lista.itens,

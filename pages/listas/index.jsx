@@ -55,7 +55,10 @@ export default function Listas() {
                             key={index}
                             onClick={() => showLista(lista)}
                         >
-                            <h4>{lista.nome.stringValue}</h4>
+                            <div className='d-flex gap-2 align-items-bottom'>
+                                <h4>{lista.nome.stringValue}</h4>
+                                <p className='lead fs-5'> até {lista.prazo.stringValue}</p>
+                            </div>
                             <ul>
                                 {lista.itens.arrayValue.values.map((item, index) =>
                                     <li key={index}>{`${item.mapValue.fields.qtd.integerValue} ${item.mapValue.fields.nome.stringValue} `}{item.mapValue.fields.check.booleanValue && <i className="bi bi-bag-check-fill"></i>}</li>
@@ -67,8 +70,8 @@ export default function Listas() {
             </Container>
 
             {listaShow && <Modal show={show} onHide={toggleShow}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{listaShow.nome.stringValue}</Modal.Title>
+                <Modal.Header closeButton >
+                    <Modal.Title className='d-flex gap-2'>{listaShow.nome.stringValue} <p className='lead fs-5'> até {listaShow.prazo.stringValue}</p></Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Table>
@@ -89,7 +92,10 @@ export default function Listas() {
                             )}
                         </tbody>
                     </Table>
-
+                    {listaShow.users.arrayValue.values.length > 1 && <><h5>Lista compartilhada entre:</h5>
+                    <ul>
+                        {listaShow.users.arrayValue.values.map(user => <li>{user.stringValue}</li>)}
+                    </ul></>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={toggleShow}>
